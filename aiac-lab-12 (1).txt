@@ -1,0 +1,366 @@
+1)prompt: Write a beginner-friendly Python program for Linear Search. Create a function `linear_search(arr, target)` that returns the index of the target if found, otherwise returns -1. Include a docstring explaining best-case, average-case, and worst-case time complexities. Test normal input, an empty list, and a target that is not present. Display the input, output, and a short explanation of time complexity.
+
+code:
+def linear_search(arr, target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i
+    return -1
+arr = [10, 20, 30, 40, 50]
+print("Array:", arr)
+print("Search 30:", linear_search(arr, 30))
+print("Search 10:", linear_search(arr, 10))
+print("Search 50:", linear_search(arr, 50))
+print("Search 90:", linear_search(arr, 90))
+print("Empty list:", linear_search([], 10))
+print("\nTime Complexity:")
+print("Best Case: O(1)")
+print("Average Case: O(n)")
+print("Worst Case: O(n)")
+
+output:Array: [10, 20, 30, 40, 50]
+Search 30: 2
+Search 10: 0
+Search 50: 4
+Search 90: -1
+Empty list: -1
+
+Time Complexity:
+Best Case: O(1)
+Average Case: O(n)
+Worst Case: O(n)
+
+2)prompt:Write a Python program implementing iterative Binary Search using a function `binary_search(arr, target)`. The input list must be sorted. Return the index if the target exists; otherwise return -1. Test the first, middle, and last elements and a missing element. Explain why the list must be sorted and include best-case, average-case, and worst-case time complexities. Compare Binary Search with Linear Search.
+
+code:
+def binary_search(arr, target):
+    low = 0
+    high = len(arr) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+arr = [10, 20, 30, 40, 50, 60, 70]
+print("Sorted Array:", arr)
+print("Search first element (10):", binary_search(arr, 10))
+print("Search middle element (40):", binary_search(arr, 40))
+print("Search last element (70):", binary_search(arr, 70))
+print("Search missing element (90):", binary_search(arr, 90))
+print("\nTime Complexity:")
+print("Best Case: O(1)")
+print("Average Case: O(log n)")
+print("Worst Case: O(log n)")
+print("\nBinary Search is faster for large sorted lists.")
+print("The list must be sorted to eliminate half the search space each step.")
+
+output:Sorted Array: [10, 20, 30, 40, 50, 60, 70]
+Search first element (10): 0
+Search middle element (40): 3
+Search last element (70): 6
+Search missing element (90): -1
+
+Time Complexity:
+Best Case: O(1)
+Average Case: O(log n)
+Worst Case: O(log n)
+
+Binary Search is faster for large sorted lists.
+The list must be sorted to eliminate half the search space each step.
+
+3)prompt:Create a Python Student Record Search System containing student roll numbers, names, and marks. Implement both Linear Search and Binary Search to search by roll number. Test with sorted and unsorted records, ensuring Binary Search only uses sorted data. Display the complete student record when found, test a missing roll number, and print a comparison table showing input requirements and time complexities. Explain which algorithm is appropriate and why.
+
+code:
+def linear_search(records, target):
+    for i in range(len(records)):
+        if records[i]["roll"] == target:
+            return i
+    return -1
+def binary_search(records, target):
+    low = 0
+    high = len(records) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        roll = records[mid]["roll"]
+        if roll == target:
+            return mid
+        elif roll < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+students = [
+    {"roll": 103, "name": "Ravi", "marks": 85},
+    {"roll": 101, "name": "Akhil", "marks": 90},
+    {"roll": 104, "name": "Priya", "marks": 88},
+    {"roll": 102, "name": "Sneha", "marks": 92}
+]
+target = 102
+index = linear_search(students, target)
+print("LINEAR SEARCH")
+if index != -1:
+    print("Student found:", students[index])
+else:
+    print("Student not found")
+sorted_students = sorted(students, key=lambda s: s["roll"])
+print("\nSorted Student Records:")
+for student in sorted_students:
+    print(student)
+print("\nBINARY SEARCH")
+target = 104
+index = binary_search(sorted_students, target)
+if index != -1:
+    print("Student found:", sorted_students[index])
+else:
+    print("Student not found")
+target = 999
+index = binary_search(sorted_students, target)
+print("Search roll 999:", index)
+print("\nALGORITHM COMPARISON")
+print("Linear Search | Sorted data not required | O(n)")
+print("Binary Search | Sorted data required     | O(log n)")
+print("\nConclusion:")
+print("Use Linear Search for unsorted records.")
+print("Use Binary Search for large, sorted records.")
+
+output:LINEAR SEARCH
+Student found: {'roll': 102, 'name': 'Sneha', 'marks': 92}
+
+Sorted Student Records:
+{'roll': 101, 'name': 'Akhil', 'marks': 90}
+{'roll': 102, 'name': 'Sneha', 'marks': 92}
+{'roll': 103, 'name': 'Ravi', 'marks': 85}
+{'roll': 104, 'name': 'Priya', 'marks': 88}
+
+BINARY SEARCH
+Student found: {'roll': 104, 'name': 'Priya', 'marks': 88}
+Search roll 999: -1
+
+ALGORITHM COMPARISON
+Linear Search | Sorted data not required | O(n)
+Binary Search | Sorted data required     | O(log n)
+
+Conclusion:
+Use Linear Search for unsorted records.
+Use Binary Search for large, sorted records.
+
+4)prompt:Create a Python Library Book Search System using book identification numbers. Implement Linear Search and Binary Search, counting the number of comparisons performed by each algorithm. Test both algorithms with existing and missing book IDs. Display the results and comparison counts. Explain which algorithm is more suitable for a large, sorted collection of book IDs.
+
+code:
+def linear_search(arr, target):
+    comparisons = 0
+    for i in range(len(arr)):
+        comparisons += 1
+        if arr[i] == target:
+            return i, comparisons
+    return -1, comparisons
+def binary_search(arr, target):
+    low = 0
+    high = len(arr) - 1
+    comparisons = 0
+    while low <= high:
+        mid = (low + high) // 2
+        comparisons += 1
+        if arr[mid] == target:
+            return mid, comparisons
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1, comparisons
+book_ids = [105, 110, 115, 120, 125, 130, 135]
+targets = [105, 125, 135, 999]
+print("Library Book IDs:", book_ids)
+for target in targets:
+    li, lc = linear_search(book_ids, target)
+    bi, bc = binary_search(book_ids, target)
+    print("\nBook ID:", target)
+    if li != -1:
+        print("Linear Search: Found at index", li)
+    else:
+        print("Linear Search: Not found")
+    print("Linear comparisons:", lc)
+    if bi != -1:
+        print("Binary Search: Found at index", bi)
+    else:
+        print("Binary Search: Not found")
+    print("Binary comparisons:", bc)
+print("\nConclusion:")
+print("Linear Search: O(n)")
+print("Binary Search: O(log n)")
+print("Binary Search is suitable for large sorted book ID lists.")
+
+output:
+def linear_search(arr, target):
+    comparisons = 0
+
+    for i in range(len(arr)):
+        comparisons += 1
+
+        if arr[i] == target:
+            return i, comparisons
+
+    return -1, comparisons
+
+
+def binary_search(arr, target):
+    low = 0
+    high = len(arr) - 1
+    comparisons = 0
+
+    while low <= high:
+        mid = (low + high) // 2
+        comparisons += 1
+
+        if arr[mid] == target:
+            return mid, comparisons
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return -1, comparisons
+
+
+book_ids = [105, 110, 115, 120, 125, 130, 135]
+
+targets = [105, 125, 135, 999]
+
+print("Library Book IDs:", book_ids)
+
+for target in targets:
+    li, lc = linear_search(book_ids, target)
+    bi, bc = binary_search(book_ids, target)
+
+    print("\nBook ID:", target)
+
+    if li != -1:
+        print("Linear Search: Found at index", li)
+    else:
+        print("Linear Search: Not found")
+
+    print("Linear comparisons:", lc)
+
+    if bi != -1:
+        print("Binary Search: Found at index", bi)
+    else:
+        print("Binary Search: Not found")
+
+    print("Binary comparisons:", bc)
+
+print("\nConclusion:")
+print("Linear Search: O(n)")
+print("Binary Search: O(log n)")
+print("Binary Search is suitable for large sorted book ID lists.")
+
+5)prompt:Write a Python program comparing Linear Search and Binary Search for an online shopping platform that stores product IDs. Use the same sorted collection for both algorithms, with Linear Search also tested on the unsorted version if useful. Test the first, middle, last, and missing elements. Measure execution time using `time.perf_counter()` and count comparisons. Test input sizes of 100, 1000, and 10000 elements. Print a formatted comparison table showing input size, algorithm, target, execution time, comparisons, and time complexity. Explain optimizations, limitations, and why Binary Search is suitable for sorted product IDs. Ensure the code runs in VS Code.
+
+code:import time
+def linear_search(arr, target):
+    comparisons = 0
+    start = time.perf_counter()
+    for i in range(len(arr)):
+        comparisons += 1
+        if arr[i] == target:
+            elapsed = time.perf_counter() - start
+            return i, comparisons, elapsed
+    elapsed = time.perf_counter() - start
+    return -1, comparisons, elapsed
+def binary_search(arr, target):
+    low = 0
+    high = len(arr) - 1
+    comparisons = 0
+    start = time.perf_counter()
+    while low <= high:
+        mid = (low + high) // 2
+        comparisons += 1
+        if arr[mid] == target:
+            elapsed = time.perf_counter() - start
+            return mid, comparisons, elapsed
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    elapsed = time.perf_counter() - start
+    return -1, comparisons, elapsed
+sizes = [100, 1000, 10000]
+print("SEARCHING ALGORITHM COMPARISON")
+print("-" * 100)
+print(f"{'Size':<10}{'Algorithm':<18}{'Target':<12}"
+      f"{'Result':<12}{'Comparisons':<15}{'Time (seconds)':<18}")
+print("-" * 100)
+for size in sizes:
+    product_ids = list(range(1, size + 1))
+    targets = [
+        product_ids[0],       # First element
+        product_ids[size // 2],  # Middle element
+        product_ids[-1],      # Last element
+        size + 100             # Missing element
+    ]
+    for target in targets:
+        for name, function in [
+            ("Linear Search", linear_search),
+            ("Binary Search", binary_search)
+        ]:
+            index, comparisons, elapsed = function(
+                product_ids, target
+            )
+            result = "Found" if index != -1 else "Not found"
+            print(
+                f"{size:<10}{name:<18}{target:<12}"
+                f"{result:<12}{comparisons:<15}"
+                f"{elapsed:.8f}"
+            )
+print("-" * 100)
+print("\nTIME COMPLEXITY")
+print("Linear Search: O(n)")
+print("Binary Search: O(log n)")
+print("\nCONCLUSION")
+print("Linear Search works with sorted or unsorted lists.")
+print("Binary Search requires sorted data.")
+print("Binary Search generally performs fewer comparisons")
+print("for large sorted product ID collections.")
+
+output:SEARCHING ALGORITHM COMPARISON
+----------------------------------------------------------------------------------------------------
+Size      Algorithm         Target      Result      Comparisons    Time (seconds)    
+----------------------------------------------------------------------------------------------------
+100       Linear Search     1           Found       1              0.00000230
+100       Binary Search     1           Found       6              0.00000420
+100       Linear Search     51          Found       51             0.00000380
+100       Binary Search     51          Found       6              0.00000280
+100       Linear Search     100         Found       100            0.00000580
+100       Binary Search     100         Found       7              0.00000130
+100       Linear Search     200         Not found   100            0.00000400
+100       Binary Search     200         Not found   7              0.00000170
+1000      Linear Search     1           Found       1              0.00000050
+1000      Binary Search     1           Found       9              0.00000200
+1000      Linear Search     501         Found       501            0.00001870
+1000      Binary Search     501         Found       9              0.00000170
+1000      Linear Search     1000        Found       1000           0.00003970
+1000      Binary Search     1000        Found       10             0.00000180
+1000      Linear Search     1100        Not found   1000           0.00004200
+1000      Binary Search     1100        Not found   10             0.00000180
+10000     Linear Search     1           Found       1              0.00000070
+10000     Binary Search     1           Found       13             0.00000260
+10000     Linear Search     5001        Found       5001           0.00030000
+10000     Binary Search     5001        Found       13             0.00000350
+10000     Linear Search     10000       Found       10000          0.00062410
+10000     Binary Search     10000       Found       14             0.00000490
+10000     Linear Search     10100       Not found   10000          0.00056470
+10000     Binary Search     10100       Not found   14             0.00000250
+----------------------------------------------------------------------------------------------------
+
+TIME COMPLEXITY
+Linear Search: O(n)
+Binary Search: O(log n)
+
+CONCLUSION
+Linear Search works with sorted or unsorted lists.
+Binary Search requires sorted data.
+Binary Search generally performs fewer comparisons
+for large sorted product ID collections.
